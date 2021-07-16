@@ -1,1 +1,3 @@
-console.log('hello world');
+import Game from './game/game';
+
+export default new Game();

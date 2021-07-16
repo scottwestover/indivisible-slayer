@@ -25,11 +25,14 @@
 		"parcel-plugin-static-files-copy": "2.6.0",
 		"typescript": "4.2.4"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"bitecs": "0.3.12",
+		"phaser": "3.55.2"
+	},
 	"resolutions": {
 		"@typescript-eslint/eslint-plugin/**/lodash": "4.17.21",
-    "eslint-plugin-import/**/hosted-git-info": "3.0.8"
-  },
+		"eslint-plugin-import/**/hosted-git-info": "3.0.8"
+	},
 	"parcelCleanPaths": [
 		"dist"
 	],
