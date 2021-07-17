@@ -6,6 +6,15 @@ import Timer from '../lib/timer';
 import BaseScene from './base-scene';
 import SceneKeys from './scene-keys';
 
+function loadCustomFont(): void {
+  const element = document.createElement('style');
+  document.head.appendChild(element);
+  const { sheet } = element;
+  const styles = '@font-face { font-family: "KennyBlocks"; src: url("assets/fonts/kenny_blocks.ttf") format("opentype"); }';
+  (sheet as CSSStyleSheet).insertRule(styles, 0);
+  console.log(sheet);
+}
+
 export default class GameScene extends BaseScene {
   private world!: IWorld;
 
@@ -22,8 +31,13 @@ export default class GameScene extends BaseScene {
     });
   }
 
-  private init(): void {
+  public init(): void {
+    loadCustomFont();
     this.timer = new Timer(this);
+  }
+
+  public preload(): void {
+    this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
   }
 
   public create(): void {
@@ -32,6 +46,19 @@ export default class GameScene extends BaseScene {
 
     this.grid = new AlignGrid(this, 11, 11, this.getSceneWidth(), this.getSceneHeight());
     this.timer.create();
+
+    const { add } = this;
+    WebFont.load({
+      custom: {
+        families: ['KennyBlocks'],
+      },
+      active() {
+        add.text(32, 32, 'The face of the\nmoon was in\nshadow.', { fontFamily: 'KennyBlocks' });
+      },
+    });
+
+    this.add.text(50, 100, 'Button');
+    this.add.text(50, 50, 'Button', { fontFamily: 'KennyBlocks' });
 
     this.scale.on(Phaser.Scale.Events.RESIZE, this.resizeGame, this);
     this.resizeGame(this.scale.gameSize);
