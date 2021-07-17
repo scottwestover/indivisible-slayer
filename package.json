@@ -27,8 +27,7 @@
 	},
 	"dependencies": {
 		"bitecs": "0.3.12",
-		"phaser": "3.55.2",
-		"phaser3-nineslice": "0.5.0"
+		"phaser": "3.55.2"
 	},
 	"resolutions": {
 		"@typescript-eslint/eslint-plugin/**/lodash": "4.17.21",

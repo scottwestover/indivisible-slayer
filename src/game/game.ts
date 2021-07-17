@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import { Plugin as NineSlicePlugin } from 'phaser3-nineslice';
 import { GAME_HEIGHT, GAME_WIDTH } from './config';
 import * as Scenes from './scenes';
 
@@ -20,9 +19,6 @@ export default class Game {
         Scenes.GameScene,
         Scenes.GameOverScene,
       ],
-      plugins: {
-        global: [NineSlicePlugin.DefaultCfg],
-      },
     };
 
     this.game = new Phaser.Game(config);
