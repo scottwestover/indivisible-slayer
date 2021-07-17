@@ -4,4 +4,5 @@ export type GameObject =
   | Phaser.GameObjects.Image
   | Phaser.GameObjects.Sprite
   | Phaser.GameObjects.Text
-  | Phaser.GameObjects.Container;
+  | Phaser.GameObjects.Container
+  | Phaser.GameObjects.RenderTexture;
