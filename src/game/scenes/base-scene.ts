@@ -16,4 +16,10 @@ export default abstract class BaseScene extends Phaser.Scene {
   protected setViewCentered(): void {
     this.setView(0, 0);
   }
+
+  protected resize(gameSize: Phaser.Structs.Size): void {
+    const { width, height } = gameSize;
+
+    this.cameras.resize(width, height);
+  }
 }

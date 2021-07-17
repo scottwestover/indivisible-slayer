@@ -12,8 +12,7 @@ export default class Game {
         parent: 'game',
         width: GAME_WIDTH,
         height: GAME_HEIGHT,
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
+        mode: Phaser.Scale.RESIZE,
       },
       scene: [
         Scenes.PreloadScene,
