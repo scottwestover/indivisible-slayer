@@ -63,7 +63,7 @@ export default class Timer {
 
     // arc (x, y, radius, startAngle, endAngle, anticlockwise)
     this.graphics.arc(
-      0, 0, 200, Phaser.Math.DegToRad(-90), Phaser.Math.DegToRad(endingAngle), false,
+      0, 0, 140, Phaser.Math.DegToRad(-90), Phaser.Math.DegToRad(endingAngle), false,
     );
 
     this.graphics.strokePath();

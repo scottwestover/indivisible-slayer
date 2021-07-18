@@ -28,6 +28,9 @@ export default class GameOverScene extends BaseScene {
       scene: this,
       defaultImageKey: AssetKeys.GreyButton,
       hoverButtonImageKey: AssetKeys.GreyButtonPressed,
+      clickCallBack: () => {
+        this.scene.start(SceneKeys.GameScene);
+      },
     });
     this.buttonContainer.add(this.button.image);
     const playAgainTextStyle = { ...TEXT_STYLE };

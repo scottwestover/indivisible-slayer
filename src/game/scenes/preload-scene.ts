@@ -6,8 +6,9 @@ function loadCustomFont(): void {
   const element = document.createElement('style');
   document.head.appendChild(element);
   const { sheet } = element;
-  const styles = '@font-face { font-family: "KennyBlocks"; src: url("assets/fonts/kenny_blocks.ttf") format("opentype"); }';
+  let styles = '@font-face { font-family: "KennyBlocks"; src: url("assets/fonts/kenny_blocks.ttf") format("opentype"); }';
   (sheet as CSSStyleSheet).insertRule(styles, 0);
+  styles = '@font-face { font-family: "KennyFutureNarrow"; src: url("assets/fonts/kenney_future_narrow.ttf") format("opentype"); }';
 }
 
 export default class PreloadScene extends BaseScene {
@@ -31,7 +32,7 @@ export default class PreloadScene extends BaseScene {
         families: ['KennyBlocks'],
       },
       active() {
-        scene.start(SceneKeys.GameOverScene);
+        scene.start(SceneKeys.GameScene);
       },
     });
   }

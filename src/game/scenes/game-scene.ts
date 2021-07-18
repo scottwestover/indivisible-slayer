@@ -1,5 +1,5 @@
 import { createWorld, IWorld, System } from 'bitecs';
-import { TEXT_STYLE } from '../config';
+import { NUMBER_TEXT_STYLE, TEXT_STYLE } from '../config';
 import createSpriteSystem from '../ecs/systems/sprite-system';
 import { scaleGameObjectToGameWidth } from '../lib/align';
 import Timer from '../lib/timer';
@@ -16,6 +16,8 @@ export default class GameScene extends BaseScene {
   private score: number;
 
   private scoreText!: Phaser.GameObjects.Text;
+
+  private mainNumberText!: Phaser.GameObjects.Text;
 
   constructor() {
     super({
@@ -36,8 +38,11 @@ export default class GameScene extends BaseScene {
     this.spriteSystem = createSpriteSystem(this, []);
 
     this.timer.create();
-
     this.scoreText = this.add.text(0, 0, this.getScoreText(), TEXT_STYLE);
+
+    this.mainNumberText = this.add.text(
+      0, 0, this.getMainNumberText(), NUMBER_TEXT_STYLE,
+    ).setOrigin(0.5);
 
     this.scale.on(Phaser.Scale.Events.RESIZE, this.resizeGame, this);
     this.resizeGame(this.scale.gameSize);
@@ -65,9 +70,16 @@ export default class GameScene extends BaseScene {
 
     scaleGameObjectToGameWidth(this.scoreText, width, 0.3);
     this.grid.placeAtIndex(0, this.scoreText);
+
+    scaleGameObjectToGameWidth(this.mainNumberText, width, 0.2);
+    this.grid.placeAtIndex(60, this.mainNumberText);
   }
 
   private getScoreText(): string {
     return `SCORE:  ${this.score}`;
+  }
+
+  private getMainNumberText(): string {
+    return '4';
   }
 }
