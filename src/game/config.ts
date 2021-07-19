@@ -11,11 +11,29 @@ export const GAME_HEIGHT = HEIGHT;
 export const TEXT_STYLE: Phaser.Types.GameObjects.Text.TextStyle = {
   fontFamily: 'KennyBlocks',
   fontSize: '128px',
+  color: 'white',
+  align: 'center',
 };
 export const NUMBER_TEXT_STYLE: Phaser.Types.GameObjects.Text.TextStyle = {
   fontFamily: 'KennyFutureNarrow',
   fontSize: '256px',
+  color: 'white',
+};
+export const CORRECT_NUMBER_TEXT_STYLE: Phaser.Types.GameObjects.Text.TextStyle = {
+  fontFamily: 'KennyBlocks',
+  fontSize: '128px',
+  color: 'green',
+};
+export const FLOATING_NUMBER_TEXT_STYLE: Phaser.Types.GameObjects.Text.TextStyle = {
+  fontFamily: 'KennyBlocks',
+  fontSize: '72px',
+  color: 'white',
 };
 export const GRID_ROWS = 11;
 export const GRID_COLS = 11;
 export const BACKGROUND_COLOR = '#1A1A1D';
+export const INCREMENT_SCORE_VALUE = 10;
+export const STORAGE_HIGH_SCORE_KEY = 'INDIVISIBLE_SLAYER_HIGH_SCORE';
+export const DEBUG_SHOW_CORRECT_NUMBERS = true;
+export const INCREMENT_DIFFICULTY_VALUE = 0.004;
+export const GAME_TIME = 45;

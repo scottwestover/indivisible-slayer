@@ -1,9 +1,10 @@
 import AssetKeys from '../assets/asset-keys';
-import { TEXT_STYLE } from '../config';
+import { STORAGE_HIGH_SCORE_KEY, TEXT_STYLE } from '../config';
 import { scaleGameObjectToGameWidth } from '../lib/align';
 import Button from '../lib/components/button';
 import BaseScene from './base-scene';
 import SceneKeys from './scene-keys';
+import GameStorage from '../game-storage';
 
 export default class GameOverScene extends BaseScene {
   private gameOverText!: Phaser.GameObjects.Text;
@@ -18,6 +19,8 @@ export default class GameOverScene extends BaseScene {
 
   private score!: number;
 
+  private highScore!: number;
+
   constructor() {
     super({
       key: SceneKeys.GameOverScene,
@@ -27,6 +30,14 @@ export default class GameOverScene extends BaseScene {
 
   public init(data: { score: number }): void {
     this.score = data.score || 0;
+    const storedHighScore = GameStorage.instance.get(STORAGE_HIGH_SCORE_KEY) || '0';
+    this.highScore = parseInt(storedHighScore, 10);
+
+    if (this.score > this.highScore) {
+      console.log(`New high score: ${this.score}`);
+      this.highScore = this.score;
+      GameStorage.instance.set(STORAGE_HIGH_SCORE_KEY, this.highScore.toString());
+    }
   }
 
   public create(): void {
@@ -53,7 +64,7 @@ export default class GameOverScene extends BaseScene {
     this.buttonContainer.add(playAgainText);
 
     this.scoreText = this.add.text(0, 0, `SCORE:  ${this.score}`, TEXT_STYLE).setOrigin(0.5);
-    this.highScoreText = this.add.text(0, 0, `HIGH SCORE:  ${this.score}`, TEXT_STYLE).setOrigin(0.5);
+    this.highScoreText = this.add.text(0, 0, `HIGH SCORE:  ${this.highScore}`, TEXT_STYLE).setOrigin(0.5);
 
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
       this.scene.start(SceneKeys.GameScene);

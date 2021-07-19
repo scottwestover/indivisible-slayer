@@ -20,6 +20,7 @@ export default class Game {
         Scenes.PreloadScene,
         Scenes.GameScene,
         Scenes.GameOverScene,
+        Scenes.TitleScene,
       ],
     };
 

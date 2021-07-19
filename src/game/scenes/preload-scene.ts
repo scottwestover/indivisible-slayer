@@ -32,7 +32,7 @@ export default class PreloadScene extends BaseScene {
         families: ['KennyBlocks'],
       },
       active() {
-        scene.start(SceneKeys.GameScene);
+        scene.start(SceneKeys.TitleScene);
       },
     });
   }

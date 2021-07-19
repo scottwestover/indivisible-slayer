@@ -1,4 +1,13 @@
-import { NUMBER_TEXT_STYLE, TEXT_STYLE } from '../config';
+import {
+  CORRECT_NUMBER_TEXT_STYLE,
+  DEBUG_SHOW_CORRECT_NUMBERS,
+  FLOATING_NUMBER_TEXT_STYLE,
+  GAME_TIME,
+  INCREMENT_DIFFICULTY_VALUE,
+  INCREMENT_SCORE_VALUE,
+  NUMBER_TEXT_STYLE,
+  TEXT_STYLE,
+} from '../config';
 import { scaleGameObjectToGameWidth } from '../lib/align';
 import Timer from '../lib/timer';
 import { shuffleArray } from '../lib/utils';
@@ -15,11 +24,15 @@ export default class GameScene extends BaseScene {
 
   private mainNumberText!: Phaser.GameObjects.Text;
 
+  private possibleNumberGameObjectGroup!: Phaser.GameObjects.Group;
+
   private currentMainNumber: number;
 
   private currentActiveChoices: number[];
 
   private spawnLocations: number[];
+
+  private difficulty: number = 0.000;
 
   constructor() {
     super({
@@ -38,13 +51,15 @@ export default class GameScene extends BaseScene {
   public init(): void {
     this.timer = new Timer({
       scene: this,
-      timerTimeInSeconds: 10,
+      timerTimeInSeconds: GAME_TIME,
       timerCompleteCallback: this.timerCallback.bind(this),
     });
     this.score = 0;
   }
 
   public create(): void {
+    this.possibleNumberGameObjectGroup = this.add.group([]);
+
     this.cameras.main.fadeIn(1000, 0, 0, 0);
 
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_IN_COMPLETE, () => {
@@ -69,6 +84,16 @@ export default class GameScene extends BaseScene {
 
   public update(): void {
     this.timer.update();
+
+    if (this.possibleNumberGameObjectGroup) {
+      this.possibleNumberGameObjectGroup.getChildren().forEach((child) => {
+        let rotationValue = this.difficulty;
+        if (child.data.get('isNegativeRotation')) {
+          rotationValue *= -1;
+        }
+        (child as Phaser.GameObjects.Text).rotation += rotationValue;
+      });
+    }
   }
 
   private positionObjects(gameSize: Phaser.Structs.Size): void {
@@ -130,13 +155,25 @@ export default class GameScene extends BaseScene {
   }
 
   private createChoiceTextGameObject(value: number, position: number): void {
-    const text = this.add.text(0, 0, `${value}`, TEXT_STYLE);
+    let textStyle = TEXT_STYLE;
+    if (DEBUG_SHOW_CORRECT_NUMBERS) {
+      if (value % this.currentMainNumber !== 0) {
+        textStyle = CORRECT_NUMBER_TEXT_STYLE;
+      }
+    }
+    const text = this.add.text(0, 0, `${value}`, textStyle);
     text.setOrigin(0.5);
     text.setInteractive();
     text.addListener(Phaser.Input.Events.POINTER_DOWN, () => {
       this.playerClickedChoiceTextObject(value, text);
     }, this);
     this.grid.placeAtIndex(position, text);
+
+    // store value for rotating direction for number
+    text.setDataEnabled();
+    text.data.set('isNegativeRotation', randomInteger(0, 1));
+
+    this.possibleNumberGameObjectGroup.add(text);
   }
 
   private playerClickedChoiceTextObject(value: number, object: Phaser.GameObjects.Text): void {
@@ -144,26 +181,89 @@ export default class GameScene extends BaseScene {
       // console.log(`${value} is divisible by ${this.currentMainNumber}`);
       this.decrementScore();
       this.cameras.main.shake();
+      this.addFloatingTextObject(`-${INCREMENT_SCORE_VALUE}`, object);
     } else {
       // console.log(`${value} is indivisible by ${this.currentMainNumber}`);
       this.incrementScore();
+      this.addFloatingTextObject(`+${INCREMENT_SCORE_VALUE}`, object);
     }
     object.disableInteractive();
 
-    // check to see if there is anymore remaining indivisible numbers
+    // remove element
+    const index = this.currentActiveChoices.indexOf(value);
+    if (index !== -1) {
+      this.currentActiveChoices.splice(index, 1);
+    }
 
-    // if not, have object fade out
+    // check to see if there is anymore remaining indivisible numbers
+    const anyRemainingIndivisibleNumbers = this.currentActiveChoices.some(
+      (elementValue) => elementValue % this.currentMainNumber !== 0,
+    );
+
+    // if not any remaining indivisible, remove all numbers and redo them all
+    if (!anyRemainingIndivisibleNumbers) {
+      this.possibleNumberGameObjectGroup.getChildren().forEach(
+        (child: Phaser.GameObjects.GameObject) => {
+          child.disableInteractive();
+          this.tweens.add({
+            targets: child,
+            alpha: 0,
+            duration: 300,
+            ease: 'Power2',
+            onComplete: () => {
+              child.destroy();
+            },
+          });
+        },
+      );
+
+      this.tweens.add({
+        targets: this.mainNumberText,
+        alpha: 0,
+        duration: 600,
+        ease: 'Power2',
+        onComplete: () => {
+          this.difficulty += INCREMENT_DIFFICULTY_VALUE;
+          this.generateNumbers();
+          for (let i = 0; i < this.currentActiveChoices.length; i += 1) {
+            this.createChoiceTextGameObject(this.currentActiveChoices[i], this.spawnLocations[i]);
+          }
+          this.mainNumberText.setText(this.currentMainNumber.toString());
+          this.tweens.add({
+            targets: this.mainNumberText,
+            alpha: 1,
+            duration: 600,
+            ease: 'Power2',
+          });
+        },
+      });
+    } else {
+      // if not, have object fade out
+      this.tweens.add({
+        targets: object,
+        alpha: 0,
+        duration: 1200,
+        ease: 'Power2',
+        onComplete: () => {
+          object.destroy();
+        },
+      });
+    }
+  }
+
+  private addFloatingTextObject(value: string, object: Phaser.GameObjects.Text): void {
+    const text = this.add.text(object.x, object.y, `${value}`, FLOATING_NUMBER_TEXT_STYLE);
+    text.setOrigin(0.5);
+
     this.tweens.add({
-      targets: object,
-      alpha: 0,
-      duration: 1200,
-      ease: 'Power2',
+      targets: text,
+      props: {
+        y: { value: '-=50', duration: 1200, ease: 'Power2' },
+      },
       onComplete: () => {
-        object.destroy();
+        text.destroy();
       },
     });
-
-    // otherwise remove all numbers and redo them all
   }
 
   private timerCallback(): void {
@@ -174,7 +274,7 @@ export default class GameScene extends BaseScene {
   }
 
   private incrementScore(): void {
-    this.score += 10;
+    this.score += INCREMENT_SCORE_VALUE;
     this.updateScoreText();
   }
 
@@ -182,7 +282,7 @@ export default class GameScene extends BaseScene {
     if (this.score === 0) {
       return;
     }
-    this.score -= 10;
+    this.score -= INCREMENT_SCORE_VALUE;
     this.updateScoreText();
   }
 
