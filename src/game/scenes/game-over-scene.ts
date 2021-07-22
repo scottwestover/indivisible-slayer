@@ -1,5 +1,5 @@
 import AssetKeys from '../assets/asset-keys';
-import { STORAGE_HIGH_SCORE_KEY, TEXT_STYLE } from '../config';
+import { DEBUG, STORAGE_HIGH_SCORE_KEY, TEXT_STYLE } from '../config';
 import { scaleGameObjectToGameWidth } from '../lib/align';
 import Button from '../lib/components/button';
 import BaseScene from './base-scene';
@@ -20,6 +20,10 @@ export default class GameOverScene extends BaseScene {
   private score!: number;
 
   private highScore!: number;
+
+  private menuButtonContainer!: Phaser.GameObjects.Container;
+
+  private menuButton!: Button;
 
   constructor() {
     super({
@@ -54,6 +58,9 @@ export default class GameOverScene extends BaseScene {
       clickCallBack: () => {
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.button.image.disableInteractive();
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+          this.scene.start(SceneKeys.GameScene);
+        });
       },
     });
     this.buttonContainer.add(this.button.image);
@@ -66,27 +73,46 @@ export default class GameOverScene extends BaseScene {
     this.scoreText = this.add.text(0, 0, `SCORE:  ${this.score}`, TEXT_STYLE).setOrigin(0.5);
     this.highScoreText = this.add.text(0, 0, `HIGH SCORE:  ${this.highScore}`, TEXT_STYLE).setOrigin(0.5);
 
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.scene.start(SceneKeys.GameScene);
+    // main menu
+    this.menuButtonContainer = this.add.container();
+    this.menuButton = new Button({
+      scene: this,
+      defaultImageKey: AssetKeys.GreyButton,
+      hoverButtonImageKey: AssetKeys.GreyButtonPressed,
+      clickCallBack: () => {
+        this.cameras.main.fadeOut(1000, 0, 0, 0);
+        this.menuButton.image.disableInteractive();
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+          this.scene.start(SceneKeys.TitleScene);
+        });
+      },
     });
+    this.menuButtonContainer.add(this.menuButton.image);
+    const menuText = this.add.text(0, 0, 'Main Menu', playAgainTextStyle).setOrigin(0.5);
+    this.menuButtonContainer.add(menuText);
 
     this.positionObjects(this.scale.gameSize);
   }
 
   private positionObjects(gameSize: Phaser.Structs.Size): void {
     const { width, height } = gameSize;
-    // this.grid.showNumbers();
+    if (DEBUG) {
+      this.grid.showNumbers();
+    }
 
     scaleGameObjectToGameWidth(this.gameOverText, width, 0.8);
     this.grid.placeAtIndex(27, this.gameOverText);
 
     this.buttonContainer.setScale(5 * (width / height));
-    this.grid.placeAtIndex(104, this.buttonContainer);
+    this.grid.placeAtIndex(93, this.buttonContainer);
 
     scaleGameObjectToGameWidth(this.scoreText, width, 0.4);
     this.grid.placeAtIndex(49, this.scoreText);
 
     scaleGameObjectToGameWidth(this.highScoreText, width, 0.55);
     this.grid.placeAtIndex(71, this.highScoreText);
+
+    this.menuButtonContainer.setScale(5 * (width / height));
+    this.grid.placeAtIndex(104, this.menuButtonContainer);
   }
 }

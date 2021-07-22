@@ -23,6 +23,9 @@ export default class PreloadScene extends BaseScene {
     loadCustomFont();
     this.load.image(AssetKeys.GreyButton, 'assets/images/ui/grey.png');
     this.load.image(AssetKeys.GreyButtonPressed, 'assets/images/ui/grey_pressed.png');
+    this.load.image(AssetKeys.Example1, 'assets/images/example1.png');
+    this.load.image(AssetKeys.Example2, 'assets/images/example2.png');
+    this.load.image(AssetKeys.Example3, 'assets/images/example3.png');
   }
 
   public create(): void {

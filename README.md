@@ -44,3 +44,6 @@ This template uses `typescript-eslint` for linting, and it has been setup to ext
 ### Static Assets
 
 Any static assets like images or audio files should be placed in the `public` folder. It'll then be served at http://localhost:8080/images/test.png
+
+### Attributions
+https://freemusicarchive.org/music/jim-hall

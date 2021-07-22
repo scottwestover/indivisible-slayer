@@ -3,6 +3,7 @@ enum SceneKeys {
   PreloadScene = 'PreloadScene',
   GameOverScene = 'GameOverScene',
   TitleScene = 'TitleScene',
+  HowToScene = 'HowToScene',
 }
 
 export default SceneKeys;

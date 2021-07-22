@@ -1,4 +1,4 @@
-import { TEXT_STYLE } from '../config';
+import { DEBUG, TEXT_STYLE } from '../config';
 import BaseScene from './base-scene';
 import SceneKeys from './scene-keys';
 import Button from '../lib/components/button';
@@ -38,6 +38,9 @@ export default class TitleScene extends BaseScene {
       clickCallBack: () => {
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.button.image.disableInteractive();
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+          this.scene.start(SceneKeys.GameScene);
+        });
       },
     });
     this.buttonContainer.add(this.button.image);
@@ -55,22 +58,24 @@ export default class TitleScene extends BaseScene {
       clickCallBack: () => {
         this.cameras.main.fadeOut(1000, 0, 0, 0);
         this.howToPlayButton.image.disableInteractive();
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
+          this.scene.start(SceneKeys.HowToScene);
+        });
       },
     });
     this.howToPlayButtonContainer.add(this.howToPlayButton.image);
     const howToPlayText = this.add.text(0, 0, 'How To Play', playTextStyle).setOrigin(0.5);
     this.howToPlayButtonContainer.add(howToPlayText);
 
-    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-      this.scene.start(SceneKeys.GameScene);
-    });
-
     this.positionObjects(this.scale.gameSize);
   }
 
   private positionObjects(gameSize: Phaser.Structs.Size): void {
     const { width, height } = gameSize;
-    this.grid.showNumbers();
+
+    if (DEBUG) {
+      this.grid.showNumbers();
+    }
 
     scaleGameObjectToGameWidth(this.titleText, width, 0.8);
     this.grid.placeAtIndex(27, this.titleText);

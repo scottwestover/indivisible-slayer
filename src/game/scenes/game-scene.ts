@@ -1,5 +1,6 @@
 import {
   CORRECT_NUMBER_TEXT_STYLE,
+  DEBUG,
   DEBUG_SHOW_CORRECT_NUMBERS,
   FLOATING_NUMBER_TEXT_STYLE,
   GAME_TIME,
@@ -32,7 +33,7 @@ export default class GameScene extends BaseScene {
 
   private spawnLocations: number[];
 
-  private difficulty: number = 0.000;
+  private difficulty: number;
 
   constructor() {
     super({
@@ -41,6 +42,7 @@ export default class GameScene extends BaseScene {
     });
 
     this.score = 0;
+    this.difficulty = 0.000;
     this.currentMainNumber = 0;
     this.currentActiveChoices = [];
     this.spawnLocations = [
@@ -55,6 +57,7 @@ export default class GameScene extends BaseScene {
       timerCompleteCallback: this.timerCallback.bind(this),
     });
     this.score = 0;
+    this.difficulty = 0.000;
   }
 
   public create(): void {
@@ -99,7 +102,9 @@ export default class GameScene extends BaseScene {
   private positionObjects(gameSize: Phaser.Structs.Size): void {
     const { width, height } = gameSize;
 
-    // this.grid.showNumbers();
+    if (DEBUG) {
+      this.grid.showNumbers();
+    }
 
     this.timer.container.setScale(1 * (width / height));
     this.grid.placeAtIndex(60, this.timer.container);

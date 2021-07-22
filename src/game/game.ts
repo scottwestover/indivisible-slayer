@@ -21,6 +21,7 @@ export default class Game {
         Scenes.GameScene,
         Scenes.GameOverScene,
         Scenes.TitleScene,
+        Scenes.HowToScene,
       ],
     };
 
