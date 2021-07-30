@@ -2,6 +2,8 @@
 
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+Play the game on Itch.io here: <a href="https://galemius.itch.io/indivisible-slayer" target="_blank">Indivisible Slayer</a>
+
 This is a game that I created as part of the <a href="https://itch.io/jam/rndgame-jam-2" target="_blank">RNDGAME JAM II</a> game jam. The game was created using <a href="https://phaser.io/" target="_blank">Phaser 3</a> and <a href="https://www.typescriptlang.org/" target="_blank">TypeScript</a>.
 
 <p align="center">
