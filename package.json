@@ -31,6 +31,9 @@
 	"dependencies": {
 		"phaser": "3.55.2"
 	},
+	"resolutions": {
+		"postcss": "8.2.15"
+	},
 	"parcelCleanPaths": [
 		"dist"
 	],
