@@ -26,6 +26,7 @@ export default class PreloadScene extends BaseScene {
     this.load.image(AssetKeys.Example1, 'assets/images/example1.png');
     this.load.image(AssetKeys.Example2, 'assets/images/example2.png');
     this.load.image(AssetKeys.Example3, 'assets/images/example3.png');
+    this.load.image(AssetKeys.GitHub, 'assets/images/github_light.png');
     this.load.audio(AssetKeys.BGMusic, 'assets/audio/rise-and-shine.mp3');
   }
 

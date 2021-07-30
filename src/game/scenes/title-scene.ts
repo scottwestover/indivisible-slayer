@@ -4,6 +4,7 @@ import SceneKeys from './scene-keys';
 import Button from '../lib/components/button';
 import AssetKeys from '../assets/asset-keys';
 import { scaleGameObjectToGameWidth } from '../lib/align';
+import { openExternalLink } from '../lib/utils';
 
 export default class TitleScene extends BaseScene {
   private titleText!: Phaser.GameObjects.Text;
@@ -15,6 +16,8 @@ export default class TitleScene extends BaseScene {
   private howToPlayButtonContainer!: Phaser.GameObjects.Container;
 
   private howToPlayButton!: Button;
+
+  private gitHubImage!: Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -67,6 +70,12 @@ export default class TitleScene extends BaseScene {
     const howToPlayText = this.add.text(0, 0, 'How To Play', playTextStyle).setOrigin(0.5);
     this.howToPlayButtonContainer.add(howToPlayText);
 
+    this.gitHubImage = this.add.image(0, 0, AssetKeys.GitHub);
+    this.gitHubImage.setInteractive();
+    this.gitHubImage.on(Phaser.Input.Events.POINTER_DOWN, () => {
+      openExternalLink('https://github.com/scottwestover/indivisible-slayer');
+    });
+
     this.positionObjects(this.scale.gameSize);
   }
 
@@ -84,6 +93,9 @@ export default class TitleScene extends BaseScene {
     this.grid.placeAtIndex(71, this.buttonContainer);
 
     this.howToPlayButtonContainer.setScale(5 * (width / height));
-    this.grid.placeAtIndex(93, this.howToPlayButtonContainer);
+    this.grid.placeAtIndex(82, this.howToPlayButtonContainer);
+
+    scaleGameObjectToGameWidth(this.gitHubImage, width, 0.15);
+    this.grid.placeAtIndex(104, this.gitHubImage);
   }
 }

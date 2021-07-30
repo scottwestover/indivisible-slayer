@@ -37,4 +37,4 @@ export const STORAGE_HIGH_SCORE_KEY = 'INDIVISIBLE_SLAYER_HIGH_SCORE';
 export const INCREMENT_DIFFICULTY_VALUE = 0.004;
 export const GAME_TIME = 30;
 export const DEBUG_SHOW_CORRECT_NUMBERS = false;
-export const DEBUG = false;
+export const DEBUG = true;

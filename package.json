@@ -33,7 +33,8 @@
 		"phaser": "3.55.2"
 	},
 	"resolutions": {
-		"postcss": "8.2.15"
+		"postcss": "8.2.15",
+		"glob-parent": "5.1.2"
 	},
 	"parcelCleanPaths": [
 		"dist"
