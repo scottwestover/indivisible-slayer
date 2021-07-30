@@ -16,6 +16,10 @@ The following assets were used in the creation of this game:
 - <a href="https://www.kenney.nl/assets/kenney-fonts" target="_blank">Fonts: Kennys Fonts</a>
 - <a href="https://soundcloud.com/mcfunkypants2018/rise-and-shine" target="_blank">Background Audio: Mcfunkypants - Rise and Shine</a>
 
+<p align="center">
+  <img src="./.github/image3.png?raw=true" height="300" title="Game Topic">
+</p>
+
 ## Running The Project Locally
 
 ### Requirements

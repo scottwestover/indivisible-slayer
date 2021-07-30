@@ -1,0 +1,21 @@
+name: Itch.io Deploy Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Deploy
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_IO_API_KEY }}
+          CHANNEL: HTML5 / Playable in browser
+          ITCH_GAME: indivisible-slayer
+          ITCH_USER: galemius
+          PACKAGE: dist
