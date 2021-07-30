@@ -11,6 +11,26 @@ jobs:
       fail-fast: true
 
     steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+        env:
+          CI: true
+
+      - name: Install yarn
+        run: npm install --global yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: yarn build
+        run: yarn build
+        env:
+          CI: true
+
       - name: Deploy
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
