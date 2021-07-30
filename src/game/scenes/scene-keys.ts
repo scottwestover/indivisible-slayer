@@ -4,6 +4,7 @@ enum SceneKeys {
   GameOverScene = 'GameOverScene',
   TitleScene = 'TitleScene',
   HowToScene = 'HowToScene',
+  AudioManagerScene = 'AudioManagerScene',
 }
 
 export default SceneKeys;

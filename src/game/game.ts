@@ -22,6 +22,7 @@ export default class Game {
         Scenes.GameOverScene,
         Scenes.TitleScene,
         Scenes.HowToScene,
+        Scenes.AudioManagerScene,
       ],
     };
 

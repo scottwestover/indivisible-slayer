@@ -4,6 +4,7 @@ enum AssetKeys {
   Example1 = 'Example1',
   Example2 = 'Example2',
   Example3 = 'Example3',
+  BGMusic = 'BGMusic',
 }
 
 export default AssetKeys;
