@@ -31,11 +31,6 @@
 	"dependencies": {
 		"phaser": "3.55.2"
 	},
-	"resolutions": {
-		"@typescript-eslint/eslint-plugin/**/lodash": "4.17.21",
-		"eslint-plugin-import/**/hosted-git-info": "3.0.8",
-		"postcss": "7.0.36"
-	},
 	"parcelCleanPaths": [
 		"dist"
 	],
