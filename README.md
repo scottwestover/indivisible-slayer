@@ -59,4 +59,4 @@ This project uses `typescript-eslint` for linting, and it has been setup to exte
 
 ### Static Assets
 
-Any static assets like images or audio files should be placed in the `public` folder. It'll then be served at http://localhost:8080/images/test.png
+Any static assets like images or audio files should be placed in the `public` folder. It'll then be served at `http://localhost:8080/path-to-file-your-file/file-name.file-type`.
