@@ -35,7 +35,7 @@ jobs:
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_IO_API_KEY }}
-          CHANNEL: HTML5 / Playable in browser
+          CHANNEL: HTML
           ITCH_GAME: indivisible-slayer
           ITCH_USER: galemius
           PACKAGE: dist
